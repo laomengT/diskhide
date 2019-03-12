@@ -1,0 +1,10 @@
+E:\s\bin\Debug\DiskHide.exe.config
+E:\s\bin\Debug\DiskHide.exe
+E:\s\bin\Debug\DiskHide.pdb
+E:\s\obj\Debug\DiskHide.csprojAssemblyReference.cache
+E:\s\obj\Debug\DiskHide.Form1.resources
+E:\s\obj\Debug\DiskHide.Properties.Resources.resources
+E:\s\obj\Debug\DiskHide.csproj.GenerateResource.cache
+E:\s\obj\Debug\DiskHide.csproj.CoreCompileInputs.cache
+E:\s\obj\Debug\DiskHide.exe
+E:\s\obj\Debug\DiskHide.pdb

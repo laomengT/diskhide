@@ -19,12 +19,30 @@ namespace DiskHide
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 隐藏盘符
+        /// </summary>
+        /// <param name="Values"></param>
         private void DiskHide(byte[] Values)
         {
             try
             {
                 RegistryKey rgK = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
                 rgK.SetValue("NoDrives", Values, RegistryValueKind.Binary);//给默认值赋值
+                MessageBox.Show("OK");
+            }
+            catch { }
+        }
+        /// <summary>
+        /// 禁用盘符
+        /// </summary>
+        /// <param name="Values"></param>
+        private void DiskDis(byte[] Values)
+        {
+            try
+            {
+                RegistryKey rgK = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+                rgK.SetValue("NoViewOnDrive", Values, RegistryValueKind.Binary);//给默认值赋值
                 MessageBox.Show("OK");
             }
             catch { }
@@ -131,6 +149,47 @@ namespace DiskHide
         {
             byte[] bvalues = new byte[] { 00, 00, 00, 00 };
             DiskHide(bvalues);
+            //重启 explorer
+            cmdkill(true);
+            cmdkill(false);
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            byte[] bvalues = new byte[] { 00, 00, 00, 00 };
+            DiskDis(bvalues);
+            //重启 explorer
+            cmdkill(true);
+            cmdkill(false);
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            /*
+             * 01表示A盘、02表示B盘、04表示C盘、08表示D盘、10表示E盘、20表示F盘、40表示G盘、80表示H盘。如果要隐藏F盘时，将数值数据设置为“20000000
+另一个方法隐藏硬盘分区
+运行输入gpedit.msc回车打开组策略，在左侧选用户配置/管理模板/Windows组件/Windows资源管理器/在右侧选“隐藏“我的电脑”中的这些指定的驱动器”，双击它在打开的对话框中选择“已启用”，然后将你要隐藏的盘符添进去，然后按应用确定。通过设置随然隐藏了盘符，但是还可以从我的电脑地址栏访问隐藏的盘符。可通过设置禁止这样做，在右侧还有一项“防止从我的电脑访问驱动器”双击它在打开的对话框中选择“已启用”然后选择你要禁止访问的盘符添进去后，按应用确定，重启电脑即可。
+*/
+            byte data = 00;
+            if (checkBox1.Checked)
+                data += 0x01;
+            if (checkBox2.Checked)
+                data += 0x02;
+            if (checkBox3.Checked)
+                data += 0x04;
+            if (checkBox4.Checked)
+                data += 0x08;
+            if (checkBox5.Checked)
+                data += 0x10;
+            if (checkBox6.Checked)
+                data += 0x20;
+            if (checkBox7.Checked)
+                data += 0x40;
+            if (checkBox8.Checked)
+                data += 0x80;
+
+            byte[] bvalues = new byte[] { data, 00, 00, 00 }; //隐藏F盘
+            DiskDis(bvalues);
             //重启 explorer
             cmdkill(true);
             cmdkill(false);
